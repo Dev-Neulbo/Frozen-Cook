@@ -143,11 +143,11 @@ public class MainActivity extends AppCompatActivity {
                         .setPositiveButton("확인", null)
                         .show();
             } else {
-                String[] matters = availableRecipes.toArray(new String[0]);
+                String[] recipeNames = availableRecipes.toArray(new String[0]);
                 new AlertDialog.Builder(this)
                         .setTitle("추천 레시피")
-                        .setItems(matters, (dialog, which) -> {
-                            String selectedRecipeName = matters[which];
+                        .setItems(recipeNames, (dialog, which) -> {
+                            String selectedRecipeName = recipeNames[which];
                             openRecipeDetail(selectedRecipeName);
                         })
                         .setNegativeButton("취소", null)

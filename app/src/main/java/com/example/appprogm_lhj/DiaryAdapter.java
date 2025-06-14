@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.DiaryViewHolder> {
@@ -39,7 +41,16 @@ public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.DiaryViewHol
     public void onBindViewHolder(@NonNull DiaryViewHolder holder, int position) {
         Diary diary = diaries.get(position);
         if (diary.photoUri != null) {
-            holder.ivPhoto.setImageURI(Uri.parse(diary.photoUri));
+            try {
+                Glide.with(holder.itemView.getContext())
+                        .load(Uri.parse(diary.photoUri))
+                        .error(R.drawable.ic_error) // 에러 시 표시할 리소스 (res/drawable에 추가 필요)
+                        .into(holder.ivPhoto);
+            } catch (Exception e) {
+                holder.ivPhoto.setImageResource(R.drawable.ic_error); // 대체 이미지
+            }
+        } else {
+            holder.ivPhoto.setImageResource(R.drawable.ic_placeholder); // 기본 이미지 (res/drawable에 추가 필요)
         }
         holder.tvComment.setText(diary.comment);
 

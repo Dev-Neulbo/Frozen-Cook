@@ -9,8 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 import com.example.appprogm_lhj.databinding.ActivityCookingDiaryBinding;
 
-import java.util.List;
-
 public class CookingDiaryActivity extends AppCompatActivity {
     private ActivityCookingDiaryBinding binding;
     private AppDatabase db;
