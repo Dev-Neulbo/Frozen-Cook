@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText editName, editQuantity, editExpiry;
     private Button btnAdd, btnRecommend;
-    private int editingPosition = -1;  // 수정 중인 아이템 위치 (-1은 새 항목)
+    private int editingPosition = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,26 +38,22 @@ public class MainActivity extends AppCompatActivity {
                         AppDatabase.class,
                         "ingredient-database")
                 .allowMainThreadQueries()
-                .fallbackToDestructiveMigration()
+                .addMigrations(AppDatabase.MIGRATION_1_2)
                 .build();
 
-        // 뷰 연결
         recyclerView = findViewById(R.id.ingredientRecyclerView);
         editName = findViewById(R.id.editName);
         editQuantity = findViewById(R.id.editQuantity);
         editExpiry = findViewById(R.id.editExpiry);
         btnAdd = findViewById(R.id.btnAdd);
         btnRecommend = findViewById(R.id.btnRecommend);
+        Button btnOpenDiary = findViewById(R.id.btnOpenDiary);
 
-        // RecyclerView 세팅
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         ingredients = db.ingredientDao().getAllIngredients();
         adapter = new IngredientAdapter(ingredients);
         recyclerView.setAdapter(adapter);
 
-        Button btnOpenDiary = findViewById(R.id.btnOpenDiary);
-
-        // 롱클릭 : 삭제
         adapter.setOnItemLongClickListener((ingredient, position) -> {
             new AlertDialog.Builder(MainActivity.this)
                     .setTitle("삭제 확인")
@@ -76,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
                     .show();
         });
 
-        // 클릭 : 수정 모드 진입
         adapter.setOnItemClickListener((ingredient, position) -> {
             editName.setText(ingredient.name);
             editQuantity.setText(String.valueOf(ingredient.quantity));
@@ -85,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
             btnAdd.setText("수정 완료");
         });
 
-        // 추가 or 수정 버튼 클릭
         btnAdd.setOnClickListener(v -> {
             String name = editName.getText().toString().trim();
             String quantityStr = editQuantity.getText().toString().trim();
@@ -95,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "모든 항목을 입력해주세요.", Toast.LENGTH_SHORT).show();
                 return;
             }
-
 
             int quantity;
             try {
@@ -121,7 +114,6 @@ public class MainActivity extends AppCompatActivity {
                 btnAdd.setText("재료 추가");
             }
 
-
             ingredients.clear();
             ingredients.addAll(db.ingredientDao().getAllIngredients());
             adapter.notifyDataSetChanged();
@@ -129,7 +121,6 @@ public class MainActivity extends AppCompatActivity {
             clearInputs();
         });
 
-        // 레시피 추천 버튼 클릭
         btnRecommend.setOnClickListener(v -> {
             List<Recipe> allRecipes = RecipeRepository.getPredefinedRecipes();
 
@@ -141,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
             List<String> availableRecipes = new ArrayList<>();
             for (Recipe recipe : allRecipes) {
                 if (ownedNames.containsAll(recipe.ingredients)) {
-                    availableRecipes.add(recipe.name);  // 앞에 "- " 제거, 이름만 저장
+                    availableRecipes.add(recipe.name);
                 }
             }
 
@@ -152,11 +143,11 @@ public class MainActivity extends AppCompatActivity {
                         .setPositiveButton("확인", null)
                         .show();
             } else {
-                String[] recipeNames = availableRecipes.toArray(new String[0]);
+                String[] matters = availableRecipes.toArray(new String[0]);
                 new AlertDialog.Builder(this)
                         .setTitle("추천 레시피")
-                        .setItems(recipeNames, (dialog, which) -> {
-                            String selectedRecipeName = recipeNames[which];
+                        .setItems(matters, (dialog, which) -> {
+                            String selectedRecipeName = matters[which];
                             openRecipeDetail(selectedRecipeName);
                         })
                         .setNegativeButton("취소", null)
@@ -165,10 +156,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         btnOpenDiary.setOnClickListener(v -> {
-          //  Intent intent = new Intent(MainActivity.this, CookingDiaryActivity.class);
-          //  startActivity(intent);
+            Intent intent = new Intent(MainActivity.this, CookingDiaryActivity.class);
+            startActivity(intent);
         });
-
     }
 
     private void openRecipeDetail(String recipeName) {
@@ -185,13 +175,9 @@ public class MainActivity extends AppCompatActivity {
             intent.putStringArrayListExtra("recipe_ingredients", new ArrayList<>(selectedRecipe.ingredients));
             intent.putExtra("recipe_instructions", selectedRecipe.instructions);
             intent.putExtra("recipe_image_res_id", selectedRecipe.imageResId);
-
-
             startActivity(intent);
         }
     }
-
-
 
     private void clearInputs() {
         editName.setText("");
