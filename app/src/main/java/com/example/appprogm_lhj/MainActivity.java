@@ -156,8 +156,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         btnOpenDiary.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, CookingDiaryActivity.class);
-            startActivity(intent);
+            //Intent intent = new Intent(MainActivity.this, CookingDiaryActivity.class);
+            //startActivity(intent);
         });
     }
 
