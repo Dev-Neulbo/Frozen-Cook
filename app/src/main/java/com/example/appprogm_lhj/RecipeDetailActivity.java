@@ -28,11 +28,10 @@ public class RecipeDetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 뒤로가기 버튼 표시
-            getSupportActionBar().setTitle("레시피 상세"); // 툴바 제목 설정
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("레시피 상세");
         }
 
-        // 뒤로가기 버튼 클릭 시 액티비티 종료
         toolbar.setNavigationOnClickListener(v -> finish());
 
         TextView nameView = findViewById(R.id.recipeName);

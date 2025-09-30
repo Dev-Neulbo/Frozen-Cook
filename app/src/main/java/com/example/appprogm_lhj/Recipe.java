@@ -7,7 +7,7 @@ public class Recipe implements Serializable {
     public String name;
     public List<String> ingredients;
     public String instructions;
-    public int imageResId;  // 이미지 리소스 ID
+    public int imageResId;
 
     public Recipe(String name, List<String> ingredients, String instructions, int imageResId) {
         this.name = name;

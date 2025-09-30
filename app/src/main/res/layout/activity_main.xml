@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="재료 이름"
-        android:inputType="text" />
+        android:inputType="text"
+        android:layout_marginTop="50dp"/>
 
 
     <EditText
@@ -39,13 +40,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="레시피 추천"
-        android:layout_marginTop="12dp"/>
-
-    <Button
-        android:id="@+id/btnOpenDiary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="요리 일기"
         android:layout_marginTop="12dp"/>
 
 

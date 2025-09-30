@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
                         AppDatabase.class,
                         "ingredient-database")
                 .allowMainThreadQueries()
-                .addMigrations(AppDatabase.MIGRATION_1_2)
                 .build();
 
         recyclerView = findViewById(R.id.ingredientRecyclerView);
@@ -47,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         editExpiry = findViewById(R.id.editExpiry);
         btnAdd = findViewById(R.id.btnAdd);
         btnRecommend = findViewById(R.id.btnRecommend);
-        Button btnOpenDiary = findViewById(R.id.btnOpenDiary);
+
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         ingredients = db.ingredientDao().getAllIngredients();
@@ -153,11 +152,6 @@ public class MainActivity extends AppCompatActivity {
                         .setNegativeButton("취소", null)
                         .show();
             }
-        });
-
-        btnOpenDiary.setOnClickListener(v -> {
-            //Intent intent = new Intent(MainActivity.this, CookingDiaryActivity.class);
-            //startActivity(intent);
         });
     }
 

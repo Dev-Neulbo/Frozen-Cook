@@ -16,7 +16,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
     private OnItemLongClickListener longClickListener;
     private OnItemClickListener clickListener;
 
-    // 롱클릭 인터페이스 (삭제)
+    // 클릭 길게 인터페이스 (삭제)
     public interface OnItemLongClickListener {
         void onItemLongClick(Ingredient ingredient, int position);
     }

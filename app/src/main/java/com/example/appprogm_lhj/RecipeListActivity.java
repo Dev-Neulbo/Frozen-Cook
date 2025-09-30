@@ -23,12 +23,12 @@ public class RecipeListActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recipeRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // 추천 레시피 불러오기
+
         recipeList = RecipeRepository.getPredefinedRecipes();
 
-        // 어댑터 연결
+
         adapter = new RecipeListAdapter(recipeList, recipe -> {
-            // 클릭 시 상세 화면으로 이동
+
             Intent intent = new Intent(RecipeListActivity.this, RecipeDetailActivity.class);
             intent.putExtra("recipe_name", recipe.name);
             intent.putExtra("recipe_ingredients", new ArrayList<>(recipe.ingredients));
